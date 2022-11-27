@@ -72,8 +72,8 @@ function onPlayerMove(player, move, roomState) {
     var won = false
     const indexValues = []
     const secretNoSpaces = state.secret.replace(' ', '') 
-    for (var i = 0; i < state.secretNoSpaces.length; i++) {
-      indexValues.push(state.lettersGuessed.indexOf(state.secretNoSpaces[i]))
+    for (var i = 0; i < secretNoSpaces.length; i++) {
+      indexValues.push(state.lettersGuessed.indexOf(secretNoSpaces[i]))
     }  
     if (state.secret.indexOf(guess) === -1) {
       state.incorrectGuesses.push(guess);
