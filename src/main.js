@@ -63,6 +63,8 @@ function onPlayerMove(player, move, roomState) {
   if (guess != null && guess.match(allowedCharacters)) {
     if (state.secret === null) {
       throw new Error ('Wait for the other player to input the secret!')
+    } else if (player.id !== players[1].id) {
+      throw new Error ('You cannot guess!')
     }
     state.lettersGuessed.push(guess);
     console.log(state.secret);
