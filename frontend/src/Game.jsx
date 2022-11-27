@@ -17,7 +17,7 @@ const getStatusMsg = ({
     return 'waiting on another player to join...';
   }
   if (status === 'inGame') {
-    if (guesser.id === curPlr.id) {
+    if (guesser?.id === curPlr?.id) {
       return 'Try not to die buddy... guess the word';
     }
     return '';

@@ -9,7 +9,13 @@ import styles from './Hangman.module.css';
 const ALPHA_KEYS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 function Hangman({ secret, lettersGuessed, guessing }) {
-  const lettersCount = lettersGuessed.length + 1;
+  const incorrectLettersCount = lettersGuessed.reduce((total, letter) => {
+    if (!secret.includes(letter)) {
+      return total + 1;
+    }
+    return total;
+  }, 0);
+  const hangmanIndex = incorrectLettersCount + 1;
   const lettersGuessedSet = new Set(lettersGuessed);
   const secretLettersSet = new Set(secret.split(''));
   console.log(lettersGuessedSet);
@@ -21,7 +27,7 @@ function Hangman({ secret, lettersGuessed, guessing }) {
     <Stack alignItems="center" spacing={2}>
       <img
         className={styles['hangman-img']}
-        src={`/data/hang_${lettersCount}.png`}
+        src={`data/hang_${hangmanIndex}.png`}
         alt="hangman status"
       />
       <Paper sx={{ padding: 2 }}>
