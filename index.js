@@ -70,9 +70,9 @@ function onPlayerMove(player, move, roomState) {
     console.log(state.secret);
     console.log(state.lettersGuessed);
     const indexValues = [];
-    state.secret.replace(' ', ''); 
-    for (var i = 0; i < state.secretNoSpaces.length; i++) {
-      indexValues.push(state.lettersGuessed.indexOf(state.secretNoSpaces[i]));
+    const secretNoSpaces = state.secret.replace(' ', ''); 
+    for (var i = 0; i < secretNoSpaces.length; i++) {
+      indexValues.push(state.lettersGuessed.indexOf(secretNoSpaces[i]));
     }  
     if (state.secret.indexOf(guess) === -1) {
       state.incorrectGuesses.push(guess);
