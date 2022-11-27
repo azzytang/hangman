@@ -12,6 +12,7 @@ function onRoomStart(roomState) {
       status: "preGame",
       secret: null,
       lettersGuessed: [],
+      incorrectGuesses: [],
       winner: null,
     },
    };
@@ -45,21 +46,46 @@ function onPlayerQuit(player, roomState) {
 }
 
 function onPlayerMove(player, move, roomState) {
-  const { logger, state } = roomState;
+  const { logger, state, players } = roomState;
   logger.info('Move called with:', { player, move, roomState });
   logger.warn('TODO: implement how to change the roomState when any player makes a move');
-  const letters = /^[A-Z][A-Z\s]+[A-Z]$/;
+  const allowedSecret = /^[A-Z][A-Z\s]+[A-Z]$/;
+  const allowedCharacters = /^[A-Z]$/;
+
   const secret = move.secret;
   const guess = move.guess;
 
-  if (secret != null && secret.match(letters)) {
+  if (secret != null && secret.match(allowedSecret)) {
     state.secret = secret;
     return { state };
   }
 
-  if (guess != null && guess.match(letters)) {
+  if (guess != null && guess.match(allowedCharacters)) {
+    if (state.secret === null) {
+      throw new Error ('Wait for the other player to input the secret!')
+    }
     state.lettersGuessed.push(guess);
-    // do winner stuff 
+    console.log(state.secret);
+    console.log(state.lettersGuessed);
+    const indexValues = [];
+    for (var i = 0; i < state.secret.length; i++) {
+      indexValues.push(state.lettersGuessed.indexOf(state.secret[i]));
+    }   
+    if (state.secret.indexOf(guess) === -1) {
+      state.incorrectGuesses.push(guess);
+      if (state.incorrectGuesses.length === 11) {
+        state.winner = players[0];
+        state.status = "endGame";
+        return { state, finished: true };
+      }
+      return { state }
+    }
+    if (indexValues.indexOf(-1) === -1) {
+      state.winner = player;
+      state.status = "endGame";
+      return { state, finished: true };
+    }
+    
     return { state };
   }
 
